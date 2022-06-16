@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+
+</head>
+
+<body>
+
+    <nav>
+            <a href="/">
+                <h2>Home</h2>
+            </a>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/documentation">Documentation </a></li>
+            <li><a href="/gs_calc">Calculator</a></li>
+        </ul>
+    </nav>
+    <form id="calcForm" action="/api/gs_calc" method="GET">
+        <label for="number">Wpisz liczbe</label>
+        <input type="text" name="number">
+        <input type="submit" value="Oblicz">
+    </form>
+    <div>
+        Wynik:
+        <p id="result"></p>
+    </div>
+</body>
+
+<script>
+    document.getElementById("calcForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+        fetch("/api/gs_calc?" + new URLSearchParams({
+            count: e.currentTarget.count.value
+        })).then(async data => {
+            const response = await data.json();
+            document.getElementById("result").innerHTML = response.result;
+        }).catch(e => {
+            console.log(e);
+        })
+    });
+</script>
+</html>
